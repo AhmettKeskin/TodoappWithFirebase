@@ -83,6 +83,8 @@ class TodoListViewController: UIViewController {
         addTaskTextField.delegate = self
         addTaskTextField.borderStyle = .roundedRect
         addTaskTextField.placeholder = "Add a to-do.."
+        
+        prepareRightButtonBarItem()
     }
     
     private func prepareDatabase() {
@@ -96,7 +98,7 @@ class TodoListViewController: UIViewController {
             let indexPath = IndexPath(row: strongSelf.tasks.count - 1, section: 0)
             strongSelf.tableView.insertRows(at: [indexPath], with: .automatic)
         }
-        
+
         taskDbRef.child(currentUser.uid).observe(.childRemoved) { [weak self] (snapshot) in
             guard let strongSelf = self else { return }
             guard let index = strongSelf.findIndexOfRemovedTask(key: snapshot.key) else { return }
@@ -104,9 +106,9 @@ class TodoListViewController: UIViewController {
             strongSelf.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
         }
         
-        //        taskDbRef.child(currentUser.uid).observe(.value) { [weak self] (snapshot) in
-        //            self?.dataSnapshot = snapshot
-        //        }
+//        taskDbRef.child(currentUser.uid).observe(.value) { [weak self] (snapshot) in
+//            self?.dataSnapshot = snapshot
+//        }
         
     }
     
